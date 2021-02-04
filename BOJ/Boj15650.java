@@ -1,5 +1,3 @@
-package com.ssafy.boj;
-
 import java.io.*;
 
 /* 중복되지 않은 조합 */
