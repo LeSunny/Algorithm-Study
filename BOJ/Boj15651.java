@@ -1,5 +1,3 @@
-package com.ssafy.boj;
-
 import java.io.*;
 
 /* 중복을 허용하는 순열 */
