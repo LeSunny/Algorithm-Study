@@ -28,7 +28,7 @@
 ## SWEA
 ```
 - 1208 Flatten : 배열
-- 1210 Ladder1 : 재귀 (BFS로 풀이)
+- 1210 Ladder1 : 재귀
 - 1218 괄호 짝짓기 : Stack
 - 1223 계산기2 : Stack
 - 1225 암호생성기 : Queue
