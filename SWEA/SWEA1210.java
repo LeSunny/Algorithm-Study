@@ -1,102 +1,55 @@
 package swea;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.*;
+import java.util.Scanner;
 
-class Node {
-	int x;
-	int y;
-
-	public Node(int y, int x) {
-		this.x = x;
-		this.y = y;
-	}
-}
-
-public class SWEA1210 {
-	// static int[] dy = {0, 0};
-	static int[] dx = { -1, 1 };
-	static int[][] map = new int[100][100];
-	static boolean[][] mark = new boolean[100][100];
-
-	private static boolean bfs(Node start) {
-		Queue<Node> q = new LinkedList<Node>();
-		q.add(start);
-		mark[start.y][start.x] = true;
-		int x = start.x;
-		int y = start.y;
-
-		while (!q.isEmpty()) {
-			Node r = q.poll();
-
-			if (r.y == 99) {
-				// System.out.println(r.x+" "+map[r.y][r.x]);
-				if (map[r.y][r.x] == 2)
-					return true;
-				else
-					return false;
-			}
-
-			boolean flag = false;
-			for (int i = 0; i < 2; i++) {
-				int tmpX = r.x + dx[i];
-
-				if (tmpX < 0 || tmpX >= 100)
-					continue;
-				if (!mark[r.y][tmpX] && map[r.y][tmpX] != 0) {
-					// System.out.println("왼오 " +(r.y)+" "+tmpX);
-					q.offer(new Node(r.y, tmpX));
-					mark[r.y][tmpX] = true;
-					flag = true;
-					break;
-				}
-			}
-
-			if (!flag && r.y + 1 < 100 && map[r.y + 1][r.x] != 0) {
-				// System.out.println("down " +(r.y+1)+" "+(r.x));
-				q.offer(new Node(r.y + 1, r.x));
-				mark[r.y + 1][r.x] = true;
-			}
-		}
-
-		return false;
-	}
+class SWEA1210 {
+	public static int[][] map;
+	public static boolean visit[][];
+	public static int result;
 
 	public static void main(String args[]) throws Exception {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		Scanner sc = new Scanner(System.in);
 		int T = 10;
-
+		int num;
 		for (int test_case = 1; test_case <= T; test_case++) {
-			br.readLine();
-			ArrayList<Node> start = new ArrayList<Node>();
-			// 입력 받기
+			num = sc.nextInt();
+			map = new int[101][101];
+
 			for (int i = 0; i < 100; i++) {
-				String[] line = br.readLine().split("\\s");
 				for (int j = 0; j < 100; j++) {
-					map[i][j] = Integer.parseInt(line[j]);
-					if (i == 0 && map[i][j] == 1) {
-						start.add(new Node(0, j));
-					}
+					map[i][j] = sc.nextInt();
 				}
 			}
+			for (int i = 0; i < 100; i++) {
 
-			// start.add(new Node(0,67));
+				if (map[0][i] == 1) {
+					visit = new boolean[101][101];
+					sadari(0, i, i);
+				}
 
-			// start 에서 하나씩 내려가기
-			for (Node s : start) {
-				boolean r = bfs(s);
-				if (r) {
-					System.out.println("#" + test_case + " " + s.x);
-					break;
-				}
-				for (int i = 0; i < 100; i++) {
-					for (int j = 0; j < 100; j++) {
-						mark[i][j] = false;
-					}
-				}
 			}
+			System.out.println("#" + num + " " + result);
 
+		}
+		sc.close();
+	}
+
+	public static void sadari(int y, int x, int start) {
+
+		if (y == 99) {
+			if (map[y][x] == 2)
+				result = start;
+			return;
+		}
+
+		visit[y][x] = true;
+
+		if ((x + 1 <= 99) && map[y][x + 1] == 1 && !visit[y][x + 1]) { // 오른쪽
+			sadari(y, x + 1, start);
+		} else if ((x - 1 >= 0) && map[y][x - 1] == 1 && !visit[y][x - 1]) { // 왼쪽
+			sadari(y, x - 1, start);
+		} else { // 아래
+			sadari(y + 1, x, start);
 		}
 	}
 }
