@@ -62,3 +62,8 @@
 ```
 - 225. Implement Stack using Queues
 ```
+
+## Jungol
+```
+- 1828 냉장고 : Greedy
+```
