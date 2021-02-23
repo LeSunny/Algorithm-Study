@@ -1,0 +1,39 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+		int N = Integer.parseInt(br.readLine());
+		int[][] map = new int[101][101];
+		
+		for (int i = 0; i < N; i++) {
+			StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+			int startx = Integer.parseInt(st.nextToken());
+			int starty = Integer.parseInt(st.nextToken());
+			int w = Integer.parseInt(st.nextToken());
+			int h = Integer.parseInt(st.nextToken());
+			
+			int n = i+1;
+			for (int y = starty; y < starty+h; y++) {
+				for (int x = startx; x <startx+w ; x++) {
+					map[y][x] = n;
+				}
+			}
+		}
+
+		int[] sum = new int[N];
+		for (int y = 0; y < 101; y++) {
+			for (int x = 0; x < 101; x++) {
+				if(map[y][x]!=0) {
+					sum[map[y][x]-1]++;
+				}
+			}
+		}
+		for(int s : sum) {
+			System.out.println(s);
+		}
+		br.close();
+	}
+}
