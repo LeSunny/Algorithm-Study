@@ -2,7 +2,6 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-	static int[][] map;
 	static int width, height;
 
 	public static void main(String[] args) throws IOException {
