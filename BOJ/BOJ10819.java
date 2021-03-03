@@ -1,71 +1,47 @@
-import java.util.Scanner;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.lang.Math;
+import java.io.*;
+import java.util.StringTokenizer;
 
-public class Main{
-	public static int calculate(int[] arr) {
-		int max=0;
-		for(int i=0;i<arr.length-1;i++) {
-			max+=Math.abs(arr[i]-arr[i+1]);
+public class Main {
+	static int N, nums[];
+	static int max = Integer.MIN_VALUE;
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		
+		N = Integer.parseInt(br.readLine());
+		nums = new int[N];
+		StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+		
+		for(int i=0; i<N; i++) {
+			nums[i] = Integer.parseInt(st.nextToken());			
 		}
-		return max;
+		
+		makePermutation(0, new int[N], new boolean[N]);
+		System.out.println(max);
+		br.close();
 	}
-	public static int permutation(int[] perm, int number) {
-		int max = -1;
-        for(int i=1; i< number; i++) {
-        	if(perm[i-1] < perm[i]) max = i;
-        }
-        	
-        if(max==-1) {
-        	return 0;
-        }
-        	
-        int max2 = -1;
-        for(int j=max ; j<number; j++) {
-        	if(perm[max-1] < perm[j]) max2 = j;
-        }
-        	
-        //swap i-1 <-> j
-        int temp = perm[max-1];
-        perm[max-1] = perm[max2];
-        perm[max2] = temp;
-        	
-        ArrayList<Integer> tempArr = new ArrayList<>();
-        for(int i=max ; i<number; i++) {
-        	tempArr.add(perm[i]);
-        }
-        	
-        Collections.reverse(tempArr);
-        	
-        for(int i=max; i<number; i++) {
-        	perm[i] = tempArr.get(i-max);
-        }
-        int result=calculate(perm);
-        
-        return result;
+	
+	private static void makePermutation (int cnt, int[] permArr, boolean[] visited){
+		if(cnt == N) {
+			calculate(permArr);
+			return;
+		}
+		
+		for(int i=0; i<N; i++) {
+			if(visited[i]) continue;
+			visited[i] = true;
+			permArr[cnt] = nums[i];
+			makePermutation(cnt+1, permArr, visited);
+			visited[i] = false;
+		}
 	}
-	public static int factorial(int n) {
-		if(n==1) return 1;
-		else return n*factorial(n-1);
+
+	private static void calculate(int[] permArr) {
+		int sum = 0;
+		
+		for(int i=0; i<N-1; i++) {
+			sum += Math.abs(permArr[i]-permArr[i+1]);
+		}
+		
+		max = Math.max(sum, max);
 	}
-	public static void main(String[] args){
-		Scanner in = new Scanner(System.in);
-    	int number = in.nextInt();
-    	int[] arr = new int[number];
-    	for(int i=0; i<number; i++) {
-    		arr[i] = in.nextInt();
-    	}
-    	Arrays.sort(arr);
-    	int t = factorial(number);
-    	
-    	int max=0;
-    	for(int i=0; i<t;i++) {
-    		int temp = permutation(arr,number);
-    		if(max<temp)
-    			max=temp;
-    	}
-    	System.out.println(max);
-    }
 }
